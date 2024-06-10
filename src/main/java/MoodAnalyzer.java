@@ -2,24 +2,32 @@ public class MoodAnalyzer {
 
     private String msg;
 
+
     public MoodAnalyzer(){
 
     }
-    public MoodAnalyzer(String msg){
+    public MoodAnalyzer(String msg) throws MoodAnalyzerException{
         this.msg = msg;
     }
 
-    public String analyzeMood(){
-        try{
-            if(msg.contains("sad")){
-                return "SAD";
+    public void analyzeMood(String msg) throws MoodAnalyzerException{
+        this.msg = msg;
+        analyzeMood();
+    }
+
+    public String analyzeMood() throws MoodAnalyzerException {
+        try {
+            if (msg.isEmpty()) {
+                throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.EMPTY, "Enter Input");
             }
-            else {
+
+            if (msg.contains("sad")) {
+                return "SAD";
+            } else {
                 return "HAPPY";
             }
-        }
-         catch (NullPointerException e){
-            return "INVALID";
+        } catch (NullPointerException e) {
+            throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NULL, "Enter a valid Input");
         }
     }
 }

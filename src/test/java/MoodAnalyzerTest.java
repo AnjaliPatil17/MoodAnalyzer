@@ -6,23 +6,41 @@ import static org.junit.jupiter.api.Assertions.*;
 class MoodAnalyzerTest {
 
     @Test
-    void analyzeMood(){
+    void analyzeMood() throws MoodAnalyzerException {
         MoodAnalyzer moodAnalyzer1 = new MoodAnalyzer("I am in Sad mood".toLowerCase());
         String mood = moodAnalyzer1.analyzeMood();
         Assertions.assertEquals(mood,"SAD");
     }
 
     @Test
-    void analyzeHappyMood() {
+    void analyzeHappyMood() throws MoodAnalyzerException {
         MoodAnalyzer moodAnalyzer2 = new MoodAnalyzer("I am in Any mood".toLowerCase());
         String mood = moodAnalyzer2.analyzeMood();
         Assertions.assertEquals(mood,"HAPPY");
     }
 
+
     @Test
-    void analyzeNullMood(){
+    void analyzeNullMood() throws MoodAnalyzerException {
         MoodAnalyzer moodAnalyzer3 = new MoodAnalyzer(null);
-        String mood = moodAnalyzer3.analyzeMood();
-        Assertions.assertEquals(mood,"INVALID");
+
+        try {
+            moodAnalyzer3.analyzeMood(null);
+        } catch (MoodAnalyzerException e) {
+            Assertions.assertEquals(MoodAnalyzerException.ExceptionType.NULL,e.type);
+        }
     }
+
+    @Test
+    void analyzeEmptyMood() throws MoodAnalyzerException {
+        MoodAnalyzer moodAnalyzer4 = new MoodAnalyzer(" ");
+
+        try {
+            moodAnalyzer4.analyzeMood(" ");
+        } catch (MoodAnalyzerException e) {
+            Assertions.assertEquals(MoodAnalyzerException.ExceptionType.EMPTY,e.type);
+        }
+    }
+
+
 }
